@@ -139,16 +139,57 @@ const HomePage = () => {
     }
   };
 
-  const handleInputChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-  };
-
   // Helper function to format loan amount display
   const formatLoanAmount = (amountInLakhs) => {
+    if (!amountInLakhs || amountInLakhs === 0) return '';
     if (amountInLakhs >= 100) {
       return `₹${(amountInLakhs / 100).toFixed(1)} Crores`;
     }
     return `₹${amountInLakhs} Lakhs`;
+  };
+
+  // Helper function to format rupees input with Indian number system
+  const formatRupeesDisplay = (rupees) => {
+    if (!rupees) return '';
+    const num = parseInt(rupees);
+    if (isNaN(num)) return '';
+    
+    // Convert to Indian number format (lakhs, crores)
+    if (num >= 10000000) { // 1 crore
+      const crores = (num / 10000000).toFixed(2);
+      return `₹${crores} Crores`;
+    } else if (num >= 100000) { // 1 lakh
+      const lakhs = (num / 100000).toFixed(2);
+      return `₹${lakhs} Lakhs`;
+    } else if (num >= 1000) { // 1 thousand
+      const thousands = (num / 1000).toFixed(2);
+      return `₹${thousands} Thousands`;
+    }
+    return `₹${num}`;
+  };
+
+  // Handle rupees input change
+  const handleRupeesChange = (rupees) => {
+    const rupeesValue = parseFloat(rupees) || 0;
+    const lakhsValue = rupeesValue / 100000; // Convert rupees to lakhs
+    
+    setFormData(prev => ({
+      ...prev,
+      loanAmountRupees: rupees,
+      loanAmount: [Math.max(0, Math.min(500, lakhsValue))]
+    }));
+  };
+
+  // Handle slider change
+  const handleSliderChange = (lakhsArray) => {
+    const lakhsValue = lakhsArray[0];
+    const rupeesValue = lakhsValue * 100000; // Convert lakhs to rupees
+    
+    setFormData(prev => ({
+      ...prev,
+      loanAmount: lakhsArray,
+      loanAmountRupees: rupeesValue.toString()
+    }));
   };
 
   return (
