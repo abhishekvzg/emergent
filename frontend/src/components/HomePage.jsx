@@ -352,9 +352,13 @@ const HomePage = () => {
 
               {/* Action Buttons */}
               <div className="space-y-3">
-                <Button className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 border-2 border-yellow-400 hover:border-yellow-300">
+                <Button 
+                  className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 border-2 border-yellow-400 hover:border-yellow-300"
+                  onClick={() => window.open('https://www.pnbhousing.com/home-loan', '_blank')}
+                >
                   <Building2 className="mr-2 h-5 w-5" />
                   Switch to PNB Now
+                  <ExternalLink className="ml-2 h-4 w-4" />
                 </Button>
                 <Button 
                   variant="outline" 
