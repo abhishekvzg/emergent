@@ -182,7 +182,7 @@ const HomePage = () => {
               <div className="space-y-6">
                 <div>
                   <Label className="text-lg font-semibold text-gray-700 mb-4 block">
-                    Your Loan Amount Outstanding (₹{formData.loanAmount[0]} Lakhs)
+                    Your Loan Amount Outstanding ({formatLoanAmount(formData.loanAmount[0])})
                   </Label>
                   <div className="px-4">
                     <Slider
@@ -195,24 +195,42 @@ const HomePage = () => {
                     />
                     <div className="flex justify-between text-sm text-gray-500 mt-2">
                       <span>₹10L</span>
-                      <span>₹500L</span>
+                      <span>₹5 Cr</span>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <Label htmlFor="remainingMonths" className="text-lg font-semibold text-gray-700 mb-2 block">
-                    Remaining Instalments (Months)
+                  <Label className="text-lg font-semibold text-gray-700 mb-2 block">
+                    Remaining Tenure
                   </Label>
-                  <Input
-                    id="remainingMonths"
-                    type="number"
-                    placeholder="e.g., 180"
-                    value={formData.remainingMonths}
-                    onChange={(e) => handleInputChange('remainingMonths', e.target.value)}
-                    className="h-14 text-xl border-2 focus:border-orange-500"
-                  />
-                  <p className="text-sm text-gray-500 mt-1">Number of monthly payments remaining</p>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Input
+                        type="number"
+                        placeholder="Years"
+                        value={formData.remainingYears}
+                        onChange={(e) => handleInputChange('remainingYears', e.target.value)}
+                        className="h-14 text-xl border-2 focus:border-orange-500"
+                        min="0"
+                        max="30"
+                      />
+                      <p className="text-xs text-gray-500 mt-1 text-center">Years</p>
+                    </div>
+                    <div>
+                      <Input
+                        type="number"
+                        placeholder="Months"
+                        value={formData.remainingMonths}
+                        onChange={(e) => handleInputChange('remainingMonths', e.target.value)}
+                        className="h-14 text-xl border-2 focus:border-orange-500"
+                        min="0"
+                        max="11"
+                      />
+                      <p className="text-xs text-gray-500 mt-1 text-center">Months</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-500 mt-2">Enter remaining loan tenure (e.g., 4 years 3 months)</p>
                 </div>
               </div>
             </div>
