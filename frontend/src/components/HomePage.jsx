@@ -174,7 +174,7 @@ const HomePage = () => {
                     placeholder="e.g., 8.5"
                     value={formData.currentRate}
                     onChange={(e) => handleInputChange('currentRate', e.target.value)}
-                    className="h-14 text-xl border-2 focus:border-orange-500"
+                    className="h-14 text-xl border-2 focus:border-red-600"
                   />
                 </div>
               </div>
