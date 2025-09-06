@@ -128,12 +128,12 @@ const HomePage = () => {
         {/* Main Content */}
         <div className="space-y-8">
           {/* Big Center Box */}
-          <Card className="p-12 text-center bg-gradient-to-br from-orange-500 to-red-500 text-white shadow-2xl border-0">
+          <Card className="p-12 text-center bg-gradient-to-br from-red-800 to-red-900 text-white shadow-2xl border-2 border-yellow-400">
             <h2 className="text-5xl font-black mb-4 leading-tight">
               GAIN BIG WITH PNB HOME LOANS
             </h2>
-            <p className="text-xl opacity-90">
-              Switch to better rates and save thousands every month
+            <p className="text-xl opacity-90 text-yellow-200">
+              Switch to India's most trusted bank and save thousands every month
             </p>
           </Card>
 
