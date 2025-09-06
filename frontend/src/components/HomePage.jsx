@@ -28,8 +28,9 @@ const HomePage = () => {
   const { toast } = useToast();
 
   const calculateSavings = async () => {
-    // Validation
-    if (!formData.currentRate || !formData.loanAmount[0] || formData.loanAmount[0] <= 0 || (!formData.remainingYears && !formData.remainingMonths)) {
+    // Validation - check if rupees amount is provided
+    const rupeesAmount = parseFloat(formData.loanAmountRupees);
+    if (!formData.currentRate || !rupeesAmount || rupeesAmount <= 0 || (!formData.remainingYears && !formData.remainingMonths)) {
       toast({
         title: "Missing Information",
         description: "Please fill in all required fields with valid values.",
@@ -54,8 +55,8 @@ const HomePage = () => {
         return;
       }
       
-      // Convert inputs to numbers
-      const outstandingAmount = parseFloat(formData.loanAmount[0]) * 100000; // Convert lakhs to rupees
+      // Use rupees amount directly (no conversion needed)
+      const outstandingAmount = rupeesAmount;
       const currentRate = parseFloat(formData.currentRate);
       const pnbRate = parseFloat(formData.pnbRate);
       const remainingTenureYears = totalMonths / 12;
