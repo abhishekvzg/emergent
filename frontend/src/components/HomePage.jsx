@@ -70,6 +70,20 @@ const HomePage = () => {
       const monthlySavings = currentEMI - pnbEMI;
       const totalSavings = monthlySavings * totalMonths;
       
+      // Calculate early closure with same EMI
+      const calculateEarlyClosureMonths = (principal, rate, currentEMI) => {
+        const monthlyRate = rate / (12 * 100);
+        if (monthlyRate === 0) return Math.ceil(principal / currentEMI);
+        
+        // Using loan amortization formula to find remaining months
+        const months = Math.log(1 + (principal * monthlyRate) / currentEMI) / Math.log(1 + monthlyRate);
+        return Math.ceil(months);
+      };
+      
+      const earlyClosureMonths = calculateEarlyClosureMonths(outstandingAmount, parseFloat(formData.pnbRate), currentEMI);
+      const earlyClosureYears = Math.floor(earlyClosureMonths / 12);
+      const earlyClosureRemainingMonths = earlyClosureMonths % 12;
+      
       setCalculations({
         currentEMI: Math.round(currentEMI),
         pnbEMI: Math.round(pnbEMI),
