@@ -16,7 +16,8 @@ const HomePage = () => {
   const [formData, setFormData] = useState({
     pnbRate: '7.5',
     currentRate: '',
-    loanAmount: [''], // Empty by default
+    loanAmount: [''], // Empty by default - will store lakhs for slider
+    loanAmountRupees: '', // Store rupees input separately
     remainingYears: '',
     remainingMonths: ''
   });
