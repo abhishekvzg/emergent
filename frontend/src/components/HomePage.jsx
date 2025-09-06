@@ -218,7 +218,7 @@ const HomePage = () => {
 
                 <Button 
                   onClick={calculateSavings}
-                  disabled={isCalculating || !formData.loanAmount || !formData.tenure || !formData.currentRate}
+                  disabled={isCalculating || !formData.loanAmount || !formData.tenure || !formData.currentRate || !formData.startYear || !formData.startMonth}
                   className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 transform hover:scale-105 transition-all duration-200"
                 >
                   {isCalculating ? (
