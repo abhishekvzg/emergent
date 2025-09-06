@@ -262,14 +262,14 @@ const HomePage = () => {
 
       {/* Savings Modal */}
       <Dialog open={showSavingsModal} onOpenChange={setShowSavingsModal}>
-        <DialogContent className="max-w-2xl bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200">
+        <DialogContent className="max-w-2xl bg-gradient-to-br from-red-50 to-yellow-50 border-2 border-red-300">
           <DialogHeader>
             <div className="text-center space-y-4">
-              <div className="mx-auto w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center">
-                <TrendingDown className="h-10 w-10 text-white" />
+              <div className="mx-auto w-20 h-20 bg-gradient-to-br from-red-700 to-red-800 rounded-full flex items-center justify-center border-2 border-yellow-400">
+                <TrendingDown className="h-10 w-10 text-yellow-300" />
               </div>
-              <DialogTitle className="text-3xl font-bold text-gray-900">
-                Your Savings Calculation
+              <DialogTitle className="text-3xl font-bold text-red-900">
+                Your PNB Savings Calculation
               </DialogTitle>
             </div>
           </DialogHeader>
