@@ -354,7 +354,7 @@ const HomePage = () => {
             <div className="mt-8 md:mt-12 text-center">
               <Button 
                 onClick={calculateSavings}
-                disabled={isCalculating || !formData.currentRate || !formData.loanAmount[0] || (!formData.remainingYears && !formData.remainingMonths)}
+                disabled={isCalculating || !formData.currentRate || !formData.loanAmountRupees || parseFloat(formData.loanAmountRupees) <= 0 || (!formData.remainingYears && !formData.remainingMonths)}
                 className="h-14 md:h-16 px-8 md:px-12 text-lg md:text-xl font-bold bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 border-2 border-yellow-400 hover:border-yellow-300 transform hover:scale-105 transition-all duration-300 shadow-xl rounded-xl text-white"
               >
                 {isCalculating ? (
