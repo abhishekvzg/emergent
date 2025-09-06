@@ -54,9 +54,17 @@ const HomePage = () => {
 
       const response = await axios.post(`${API}/calculate-savings`, requestData);
       
-      // Use the response data directly for remaining calculations
-      const currentEMI = response.data.currentEMI;
-      const pnbEMI = response.data.pnbEMI;
+      // Calculate EMI values separately using our own calculation
+      const calculateEMI = (principal, rate, tenure) => {
+        const monthlyRate = rate / (12 * 100);
+        const numberOfPayments = tenure * 12;
+        if (monthlyRate === 0) return principal / numberOfPayments;
+        return (principal * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / 
+               (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+      };
+      
+      const currentEMI = calculateEMI(outstandingAmount, parseFloat(formData.currentRate), remainingTenureYears);
+      const pnbEMI = calculateEMI(outstandingAmount, 6.5, remainingTenureYears);
       const monthlySavings = currentEMI - pnbEMI;
       const totalSavings = monthlySavings * parseFloat(formData.remainingMonths);
       
