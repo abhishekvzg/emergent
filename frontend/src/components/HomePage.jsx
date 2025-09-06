@@ -196,10 +196,6 @@ const HomePage = () => {
     }));
   };
 
-  const handleInputChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-red-50">
       {/* Enhanced backdrop blur when modal is open */}
