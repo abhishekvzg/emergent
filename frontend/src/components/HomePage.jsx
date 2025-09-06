@@ -24,65 +24,71 @@ const HomePage = () => {
   const [calculations, setCalculations] = useState(null);
   const [showPNBModal, setShowPNBModal] = useState(false);
   const [isCalculating, setIsCalculating] = useState(false);
+  const [bankRates, setBankRates] = useState(null);
+  const { toast } = useToast();
 
-  const calculateEMI = (principal, rate, tenure) => {
-    const monthlyRate = rate / (12 * 100);
-    const numberOfPayments = tenure * 12;
-    const emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / 
-                (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
-    return emi;
+  // Fetch bank rates on component mount
+  useEffect(() => {
+    fetchBankRates();
+  }, []);
+
+  const fetchBankRates = async () => {
+    try {
+      const response = await axios.get(`${API}/bank-rates`);
+      setBankRates(response.data);
+    } catch (error) {
+      console.error('Error fetching bank rates:', error);
+      // Fallback to mock data if API fails
+      setBankRates({
+        pnbRate: 6.5,
+        competitors: [
+          { name: 'Bank A', rate: 8.2 },
+          { name: 'Bank B', rate: 8.7 },
+          { name: 'Bank C', rate: 9.1 }
+        ]
+      });
+    }
   };
 
-  const calculateSavings = () => {
-    if (!formData.loanAmount || !formData.tenure || !formData.currentRate) return;
+  const calculateSavings = async () => {
+    if (!formData.loanAmount || !formData.tenure || !formData.currentRate || !formData.startYear || !formData.startMonth) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields.",
+        variant: "destructive"
+      });
+      return;
+    }
     
     setIsCalculating(true);
     
-    setTimeout(() => {
-      const principal = parseFloat(formData.loanAmount);
-      const tenure = parseFloat(formData.tenure);
-      const currentRate = parseFloat(formData.currentRate);
+    try {
+      const requestData = {
+        loanAmount: parseFloat(formData.loanAmount),
+        startYear: parseInt(formData.startYear),
+        startMonth: parseInt(formData.startMonth),
+        tenure: parseFloat(formData.tenure),
+        currentRate: parseFloat(formData.currentRate)
+      };
+
+      const response = await axios.post(`${API}/calculate-savings`, requestData);
+      setCalculations(response.data);
       
-      const startDate = new Date(parseInt(formData.startYear), parseInt(formData.startMonth) - 1);
-      const currentDate = new Date();
-      const monthsElapsed = (currentDate.getFullYear() - startDate.getFullYear()) * 12 + 
-                           (currentDate.getMonth() - startDate.getMonth());
-      const remainingTenure = Math.max(0, (tenure * 12 - monthsElapsed) / 12);
-      
-      const currentEMI = calculateEMI(principal, currentRate, tenure);
-      const currentTotalPayment = currentEMI * tenure * 12;
-      
-      const pnbEMI = calculateEMI(principal, mockData.pnbRate, tenure);
-      const pnbTotalPayment = pnbEMI * tenure * 12;
-      
-      const totalSavings = currentTotalPayment - pnbTotalPayment;
-      const monthlySavings = currentEMI - pnbEMI;
-      
-      // Calculate remaining savings if switching now
-      const remainingCurrentPayment = currentEMI * remainingTenure * 12;
-      const remainingPNBPayment = calculateEMI(principal * (remainingTenure / tenure), mockData.pnbRate, remainingTenure) * remainingTenure * 12;
-      const remainingSavings = Math.max(0, remainingCurrentPayment - remainingPNBPayment);
-      
-      const bankComparisons = mockData.banks.map(bank => ({
-        name: bank.name,
-        rate: bank.rate,
-        emi: calculateEMI(principal, bank.rate, tenure),
-        totalPayment: calculateEMI(principal, bank.rate, tenure) * tenure * 12,
-        savings: (calculateEMI(principal, bank.rate, tenure) * tenure * 12) - pnbTotalPayment
-      }));
-      
-      setCalculations({
-        currentEMI,
-        pnbEMI,
-        totalSavings,
-        monthlySavings,
-        remainingSavings,
-        bankComparisons,
-        remainingTenure
+      toast({
+        title: "Calculation Complete!",
+        description: `You could save ₹${Math.abs(response.data.totalSavings).toLocaleString('en-IN')} in total.`,
       });
       
+    } catch (error) {
+      console.error('Error calculating savings:', error);
+      toast({
+        title: "Calculation Error",
+        description: "Failed to calculate savings. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
       setIsCalculating(false);
-    }, 1500);
+    }
   };
 
   const handleInputChange = (field, value) => {
