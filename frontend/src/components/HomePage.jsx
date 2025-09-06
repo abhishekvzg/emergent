@@ -89,7 +89,10 @@ const HomePage = () => {
         pnbEMI: Math.round(pnbEMI),
         monthlySavings: Math.round(monthlySavings),
         totalSavings: Math.round(totalSavings),
-        remainingMonths: totalMonths
+        remainingMonths: totalMonths,
+        earlyClosureYears,
+        earlyClosureRemainingMonths,
+        earlyClosureMonths
       });
       
       setShowSavingsModal(true);
