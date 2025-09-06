@@ -3,9 +3,9 @@ import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { Slider } from './ui/slider';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
-import { Calculator, TrendingDown, Building2, CheckCircle, ArrowRight, AlertCircle } from 'lucide-react';
+import { Calculator, TrendingDown, Building2, ArrowRight } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
 import axios from 'axios';
 
@@ -16,41 +16,17 @@ const HomePage = () => {
   const [formData, setFormData] = useState({
     pnbRate: '6.5',
     currentRate: '',
-    loanAmount: 50, // in lakhs
+    loanAmount: [50], // in lakhs (slider value as array)
     remainingMonths: ''
   });
   
   const [calculations, setCalculations] = useState(null);
   const [showSavingsModal, setShowSavingsModal] = useState(false);
   const [isCalculating, setIsCalculating] = useState(false);
-  const [bankRates, setBankRates] = useState(null);
   const { toast } = useToast();
 
-  // Fetch bank rates on component mount
-  useEffect(() => {
-    fetchBankRates();
-  }, []);
-
-  const fetchBankRates = async () => {
-    try {
-      const response = await axios.get(`${API}/bank-rates`);
-      setBankRates(response.data);
-    } catch (error) {
-      console.error('Error fetching bank rates:', error);
-      // Fallback to mock data if API fails
-      setBankRates({
-        pnbRate: 6.5,
-        competitors: [
-          { name: 'Bank A', rate: 8.2 },
-          { name: 'Bank B', rate: 8.7 },
-          { name: 'Bank C', rate: 9.1 }
-        ]
-      });
-    }
-  };
-
   const calculateSavings = async () => {
-    if (!formData.currentRate || !formData.loanAmount || !formData.remainingMonths) {
+    if (!formData.currentRate || !formData.loanAmount[0] || !formData.remainingMonths) {
       toast({
         title: "Missing Information",
         description: "Please fill in all required fields.",
@@ -63,7 +39,7 @@ const HomePage = () => {
     
     try {
       // Calculate based on remaining months and outstanding amount
-      const outstandingAmount = parseFloat(formData.loanAmount) * 100000; // Convert lakhs to rupees
+      const outstandingAmount = parseFloat(formData.loanAmount[0]) * 100000; // Convert lakhs to rupees
       const remainingTenureYears = parseFloat(formData.remainingMonths) / 12;
       
       const requestData = {
@@ -108,115 +84,68 @@ const HomePage = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 30 }, (_, i) => currentYear - i);
-  const months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-red-50">
       {/* Header */}
       <header className="bg-white shadow-lg border-b-4 border-orange-500">
         <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-center">
             <div className="flex items-center space-x-3">
               <div className="bg-gradient-to-r from-orange-500 to-red-500 p-3 rounded-xl">
                 <Calculator className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Home Loan Calculator</h1>
-                <p className="text-gray-600">Compare rates and save thousands</p>
+                <h1 className="text-3xl font-bold text-gray-900">PNB Home Loan Calculator</h1>
+                <p className="text-gray-600">Calculate your savings instantly</p>
               </div>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 py-12">
-        {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold text-gray-900 mb-6 leading-tight">
-            Discover How Much You Can
-            <span className="bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent"> Save</span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Calculate your potential savings by switching to better home loan rates. 
-            See the exact amount you could save with our recommended partner bank.
-          </p>
-        </div>
+      <main className="max-w-4xl mx-auto px-4 py-12">
+        {/* Main Content */}
+        <div className="space-y-8">
+          {/* Big Center Box */}
+          <Card className="p-12 text-center bg-gradient-to-br from-orange-500 to-red-500 text-white shadow-2xl border-0">
+            <h2 className="text-5xl font-black mb-4 leading-tight">
+              GAIN BIG WITH PNB HOME LOANS
+            </h2>
+            <p className="text-xl opacity-90">
+              Switch to better rates and save thousands every month
+            </p>
+          </Card>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          {/* Know Your Gain Section */}
+          <div className="text-center mb-8">
+            <h3 className="text-3xl font-bold text-gray-900 mb-2">Know Your Gain Here</h3>
+            <p className="text-gray-600">Enter your details below to calculate potential savings</p>
+          </div>
+
           {/* Input Form */}
-          <Card className="p-8 shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
-            <div className="space-y-6">
-              <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Enter Your Loan Details</h3>
-                <p className="text-gray-600">Fill in your current home loan information</p>
-              </div>
-
-              <div className="space-y-4">
+          <Card className="p-8 shadow-xl bg-white/90 backdrop-blur-sm">
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Left Column */}
+              <div className="space-y-6">
                 <div>
-                  <Label htmlFor="loanAmount" className="text-base font-semibold text-gray-700">
-                    Total Loan Amount (₹)
+                  <Label htmlFor="pnbRate" className="text-lg font-semibold text-gray-700 mb-2 block">
+                    PNB Home Loan Interest Rate (% p.a.)
                   </Label>
                   <Input
-                    id="loanAmount"
+                    id="pnbRate"
                     type="number"
-                    placeholder="e.g., 5000000"
-                    value={formData.loanAmount}
-                    onChange={(e) => handleInputChange('loanAmount', e.target.value)}
-                    className="h-12 text-lg border-2 focus:border-orange-500"
+                    step="0.1"
+                    value={formData.pnbRate}
+                    onChange={(e) => handleInputChange('pnbRate', e.target.value)}
+                    className="h-14 text-xl border-2 focus:border-orange-500 bg-orange-50"
+                    disabled
                   />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label className="text-base font-semibold text-gray-700">Start Year</Label>
-                    <Select onValueChange={(value) => handleInputChange('startYear', value)}>
-                      <SelectTrigger className="h-12 text-lg border-2 focus:border-orange-500">
-                        <SelectValue placeholder="Year" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {years.map(year => (
-                          <SelectItem key={year} value={year.toString()}>{year}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <Label className="text-base font-semibold text-gray-700">Start Month</Label>
-                    <Select onValueChange={(value) => handleInputChange('startMonth', value)}>
-                      <SelectTrigger className="h-12 text-lg border-2 focus:border-orange-500">
-                        <SelectValue placeholder="Month" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {months.map((month, index) => (
-                          <SelectItem key={index} value={(index + 1).toString()}>{month}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  <p className="text-sm text-gray-500 mt-1">Special offer rate for home loans</p>
                 </div>
 
                 <div>
-                  <Label htmlFor="tenure" className="text-base font-semibold text-gray-700">
-                    Loan Tenure (Years)
-                  </Label>
-                  <Input
-                    id="tenure"
-                    type="number"
-                    placeholder="e.g., 20"
-                    value={formData.tenure}
-                    onChange={(e) => handleInputChange('tenure', e.target.value)}
-                    className="h-12 text-lg border-2 focus:border-orange-500"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="currentRate" className="text-base font-semibold text-gray-700">
-                    Current Interest Rate (% per annum)
+                  <Label htmlFor="currentRate" className="text-lg font-semibold text-gray-700 mb-2 block">
+                    Your Present Home Loan Interest Rate (% p.a.)
                   </Label>
                   <Input
                     id="currentRate"
@@ -225,139 +154,128 @@ const HomePage = () => {
                     placeholder="e.g., 8.5"
                     value={formData.currentRate}
                     onChange={(e) => handleInputChange('currentRate', e.target.value)}
-                    className="h-12 text-lg border-2 focus:border-orange-500"
+                    className="h-14 text-xl border-2 focus:border-orange-500"
                   />
                 </div>
+              </div>
 
-                <Button 
-                  onClick={calculateSavings}
-                  disabled={isCalculating || !formData.loanAmount || !formData.tenure || !formData.currentRate || !formData.startYear || !formData.startMonth}
-                  className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 transform hover:scale-105 transition-all duration-200"
-                >
-                  {isCalculating ? (
-                    <div className="flex items-center space-x-2">
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                      <span>Calculating...</span>
+              {/* Right Column */}
+              <div className="space-y-6">
+                <div>
+                  <Label className="text-lg font-semibold text-gray-700 mb-4 block">
+                    Your Loan Amount Outstanding (₹{formData.loanAmount[0]} Lakhs)
+                  </Label>
+                  <div className="px-4">
+                    <Slider
+                      value={formData.loanAmount}
+                      onValueChange={(value) => handleInputChange('loanAmount', value)}
+                      max={500}
+                      min={10}
+                      step={5}
+                      className="w-full"
+                    />
+                    <div className="flex justify-between text-sm text-gray-500 mt-2">
+                      <span>₹10L</span>
+                      <span>₹500L</span>
                     </div>
-                  ) : (
-                    <>Calculate Savings</>
-                  )}
-                </Button>
+                  </div>
+                </div>
+
+                <div>
+                  <Label htmlFor="remainingMonths" className="text-lg font-semibold text-gray-700 mb-2 block">
+                    Remaining Instalments (Months)
+                  </Label>
+                  <Input
+                    id="remainingMonths"
+                    type="number"
+                    placeholder="e.g., 180"
+                    value={formData.remainingMonths}
+                    onChange={(e) => handleInputChange('remainingMonths', e.target.value)}
+                    className="h-14 text-xl border-2 focus:border-orange-500"
+                  />
+                  <p className="text-sm text-gray-500 mt-1">Number of monthly payments remaining</p>
+                </div>
               </div>
             </div>
-          </Card>
 
-          {/* Results */}
-          {calculations && (
-            <div className="space-y-6">
-              {/* Giant Savings Number */}
-              <Card className="p-8 text-center bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 shadow-2xl">
-                <div className="space-y-4">
-                  <div className="flex justify-center">
-                    <TrendingDown className="h-16 w-16 text-green-600" />
+            {/* Click Here Button */}
+            <div className="mt-12 text-center">
+              <Button 
+                onClick={calculateSavings}
+                disabled={isCalculating || !formData.currentRate || !formData.loanAmount[0] || !formData.remainingMonths}
+                className="h-16 px-12 text-xl font-bold bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 transform hover:scale-105 transition-all duration-300 shadow-xl rounded-xl"
+              >
+                {isCalculating ? (
+                  <div className="flex items-center space-x-3">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+                    <span>Calculating...</span>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-800">Total Potential Savings</h3>
-                  <div className="text-6xl font-black text-green-600 mb-4">
-                    ₹{Math.abs(calculations.totalSavings).toLocaleString('en-IN')}
+                ) : (
+                  <div className="flex items-center space-x-3">
+                    <span>CLICK HERE</span>
+                    <ArrowRight className="h-6 w-6" />
                   </div>
-                  <p className="text-lg text-gray-600">
-                    You could save <span className="font-bold text-green-600">₹{Math.abs(calculations.monthlySavings).toLocaleString('en-IN')}</span> per month
-                  </p>
-                  
-                  <Button 
-                    onClick={() => setShowPNBModal(true)}
-                    className="mt-6 h-12 px-8 text-lg font-semibold bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 transform hover:scale-105 transition-all duration-200"
-                  >
-                    Switch to PNB Now <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </div>
-              </Card>
-
-              {/* Bank Comparison */}
-              <Card className="p-6 shadow-xl bg-white/90">
-                <h4 className="text-xl font-bold text-gray-900 mb-4">Rate Comparison</h4>
-                <div className="space-y-3">
-                  {calculations.bankComparisons.map((bank, index) => (
-                    <div key={index} className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                      <div>
-                        <span className="font-semibold text-gray-800">{bank.name}</span>
-                        <span className="text-sm text-gray-600 ml-2">({bank.rate}% p.a.)</span>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-bold text-gray-900">₹{bank.emi.toLocaleString('en-IN')}/mo</div>
-                        <div className="text-sm text-red-600">+₹{Math.abs(bank.savings).toLocaleString('en-IN')} more</div>
-                      </div>
-                    </div>
-                  ))}
-                  <div className="flex justify-between items-center p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border-2 border-green-200">
-                    <div>
-                      <span className="font-bold text-green-800">PNB (Recommended)</span>
-                      <span className="text-sm text-green-600 ml-2">({bankRates?.pnbRate || 6.5}% p.a.)</span>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-bold text-green-800">₹{calculations.pnbEMI.toLocaleString('en-IN')}/mo</div>
-                      <div className="text-sm text-green-600 flex items-center">
-                        <CheckCircle className="h-4 w-4 mr-1" />
-                        Best Rate
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Card>
+                )}
+              </Button>
             </div>
-          )}
+          </Card>
         </div>
       </main>
 
-      {/* PNB Modal */}
-      <Dialog open={showPNBModal} onOpenChange={setShowPNBModal}>
-        <DialogContent className="max-w-lg bg-gradient-to-br from-orange-50 to-red-50 border-2 border-orange-200">
+      {/* Savings Modal */}
+      <Dialog open={showSavingsModal} onOpenChange={setShowSavingsModal}>
+        <DialogContent className="max-w-2xl bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200">
           <DialogHeader>
             <div className="text-center space-y-4">
-              <div className="mx-auto w-24 h-24 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center">
-                <Building2 className="h-12 w-12 text-white" />
+              <div className="mx-auto w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center">
+                <TrendingDown className="h-10 w-10 text-white" />
               </div>
-              <DialogTitle className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                Punjab National Bank
+              <DialogTitle className="text-3xl font-bold text-gray-900">
+                Your Savings Calculation
               </DialogTitle>
             </div>
           </DialogHeader>
           
-          <div className="space-y-6 text-center">
-            <div className="space-y-2">
-              <h4 className="text-xl font-bold text-gray-900">Special Home Loan Offer</h4>
-              <p className="text-2xl font-bold text-orange-600">{bankRates?.pnbRate || 6.5}% Interest Rate</p>
-              <p className="text-gray-600">India's trusted banking partner since 1894</p>
+          {calculations && (
+            <div className="space-y-8 text-center">
+              {/* Total Savings Banner */}
+              <div className="bg-gradient-to-r from-green-500 to-emerald-500 text-white p-8 rounded-2xl shadow-xl">
+                <h3 className="text-2xl font-bold mb-4">Your Total Savings</h3>
+                <div className="text-6xl font-black mb-2">
+                  ₹{Math.abs(calculations.totalSavings).toLocaleString('en-IN')}
+                </div>
+                <p className="text-xl opacity-90">
+                  Over {calculations.remainingMonths} months
+                </p>
+              </div>
+
+              {/* Monthly Savings */}
+              <div className="bg-white p-6 rounded-xl shadow-lg border-2 border-green-200">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Your Monthly Savings</h3>
+                <div className="text-4xl font-bold text-green-600 mb-2">
+                  ₹{Math.abs(calculations.monthlySavings).toLocaleString('en-IN')}
+                </div>
+                <p className="text-gray-600">
+                  Every month for the remaining tenure
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="space-y-3">
+                <Button className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600">
+                  <Building2 className="mr-2 h-5 w-5" />
+                  Switch to PNB Now
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full h-12 text-lg border-2 border-orange-500 text-orange-600 hover:bg-orange-50"
+                  onClick={() => setShowSavingsModal(false)}
+                >
+                  Calculate Again
+                </Button>
+              </div>
             </div>
-            
-            <div className="space-y-3 text-left bg-white/50 p-4 rounded-lg">
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="h-5 w-5 text-green-600" />
-                <span>Lowest processing fees in the market</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="h-5 w-5 text-green-600" />
-                <span>Quick approval in 48 hours</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="h-5 w-5 text-green-600" />
-                <span>No hidden charges</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="h-5 w-5 text-green-600" />
-                <span>Flexible repayment options</span>
-              </div>
-            </div>
-            
-            <div className="space-y-3">
-              <Button className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600">
-                Apply Now
-              </Button>
-              <Button variant="outline" className="w-full h-12 text-lg border-2 border-orange-500 text-orange-600 hover:bg-orange-50">
-                Get More Details
-              </Button>
-            </div>
-          </div>
+          )}
         </DialogContent>
       </Dialog>
     </div>
