@@ -334,6 +334,22 @@ const HomePage = () => {
                 </p>
               </div>
 
+              {/* Early Loan Closure */}
+              <div className="bg-gradient-to-r from-green-100 to-emerald-100 p-6 rounded-xl shadow-lg border-2 border-green-300">
+                <h3 className="text-xl font-bold text-green-900 mb-4">Early Loan Closure Benefit</h3>
+                <div className="text-center">
+                  <p className="text-lg text-green-700 mb-2">
+                    If you continue paying your current EMI of <span className="font-bold">₹{calculations.currentEMI.toLocaleString('en-IN')}</span>
+                  </p>
+                  <div className="text-3xl font-bold text-green-800 mb-2">
+                    {calculations.earlyClosureYears} Years {calculations.earlyClosureRemainingMonths} Months
+                  </div>
+                  <p className="text-green-600">
+                    You can close your PNB loan early and save more!
+                  </p>
+                </div>
+              </div>
+
               {/* Action Buttons */}
               <div className="space-y-3">
                 <Button className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 border-2 border-yellow-400 hover:border-yellow-300">
