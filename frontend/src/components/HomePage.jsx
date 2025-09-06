@@ -38,23 +38,11 @@ const HomePage = () => {
     setIsCalculating(true);
     
     try {
-      // Calculate based on remaining months and outstanding amount
+      // Simple frontend calculation (bypass backend for now)
       const outstandingAmount = parseFloat(formData.loanAmount[0]) * 100000; // Convert lakhs to rupees
-      const remainingTenureYears = Math.max(0.5, parseFloat(formData.remainingMonths) / 12); // Minimum 0.5 years
+      const remainingTenureYears = Math.max(0.5, parseFloat(formData.remainingMonths) / 12);
       
-      const requestData = {
-        loanAmount: outstandingAmount,
-        startYear: new Date().getFullYear(), // Current year as start
-        startMonth: new Date().getMonth() + 1, // Current month
-        tenure: remainingTenureYears,
-        currentRate: parseFloat(formData.currentRate)
-      };
-
-      console.log('Sending request:', requestData); // Debug log
-
-      const response = await axios.post(`${API}/calculate-savings`, requestData);
-      
-      // Calculate EMI values separately using our own calculation
+      // Calculate EMI function
       const calculateEMI = (principal, rate, tenure) => {
         const monthlyRate = rate / (12 * 100);
         const numberOfPayments = tenure * 12;
@@ -82,7 +70,7 @@ const HomePage = () => {
       console.error('Error calculating savings:', error);
       toast({
         title: "Calculation Error",
-        description: error.response?.data?.detail || "Failed to calculate savings. Please try again.",
+        description: error.message || "Failed to calculate savings. Please try again.",
         variant: "destructive"
       });
     } finally {
