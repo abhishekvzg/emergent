@@ -390,41 +390,39 @@ const HomePage = () => {
 
           {calculations && (
             <div className="space-y-4 px-2">
-              {/* Total Savings Banner - Compact */}
-              <div className="bg-gradient-to-r from-red-700 to-red-800 text-white p-4 md:p-6 rounded-xl shadow-lg border-2 border-yellow-400">
-                <h3 className="text-lg md:text-xl font-bold mb-2 text-yellow-200">Your Total Savings with PNB Housing Loan</h3>
-                <div className="text-3xl md:text-4xl font-black mb-1 text-yellow-300">
+              {/* Total Savings Banner - Green theme and centered */}
+              <div className="bg-gradient-to-r from-green-600 to-green-700 text-white p-4 md:p-6 rounded-xl shadow-lg border-2 border-green-400 text-center">
+                <h3 className="text-lg md:text-xl font-bold mb-2 text-green-100">Your Total Savings</h3>
+                <div className="text-3xl md:text-4xl font-black mb-1 text-white">
                   ₹{Math.abs(calculations.totalSavings).toLocaleString('en-IN')}
                 </div>
-                <p className="text-sm md:text-base opacity-90 text-yellow-200">
+                <p className="text-sm md:text-base opacity-90 text-green-100">
                   Over {Math.floor(calculations.remainingMonths / 12)} years {calculations.remainingMonths % 12} months
                 </p>
               </div>
 
               {/* Compact Grid for smaller cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-                {/* Monthly Savings - Compact */}
-                <div className="bg-white p-3 md:p-4 rounded-lg shadow-md border-2 border-red-300">
-                  <h3 className="text-base md:text-lg font-bold text-red-900 mb-2">Monthly Savings with PNB</h3>
-                  <div className="text-2xl md:text-3xl font-bold text-red-700 mb-1">
+                {/* Monthly Savings - Green theme and centered */}
+                <div className="bg-green-50 p-3 md:p-4 rounded-lg shadow-md border-2 border-green-300 text-center">
+                  <h3 className="text-base md:text-lg font-bold text-green-800 mb-2">Monthly Savings with PNB</h3>
+                  <div className="text-2xl md:text-3xl font-bold text-green-700 mb-1">
                     ₹{Math.abs(calculations.monthlySavings).toLocaleString('en-IN')}
                   </div>
-                  <p className="text-xs md:text-sm text-red-600">
+                  <p className="text-xs md:text-sm text-green-600">
                     Every month
                   </p>
                 </div>
 
-                {/* Early Loan Closure - Compact with same theme */}
-                <div className="bg-white p-3 md:p-4 rounded-lg shadow-md border-2 border-red-300">
-                  <h3 className="text-base md:text-lg font-bold text-red-900 mb-2">Early Loan Closure</h3>
-                  <div className="text-center">
-                    <div className="text-2xl md:text-3xl font-bold text-red-700 mb-1">
-                      {calculations.earlyClosureYears}Y {calculations.earlyClosureRemainingMonths}M
-                    </div>
-                    <p className="text-xs md:text-sm text-red-600">
-                      Close loan early!
-                    </p>
+                {/* Early Loan Closure - Green theme and centered */}
+                <div className="bg-green-50 p-3 md:p-4 rounded-lg shadow-md border-2 border-green-300 text-center">
+                  <h3 className="text-base md:text-lg font-bold text-green-800 mb-2">Early Loan Closure</h3>
+                  <div className="text-2xl md:text-3xl font-bold text-green-700 mb-1">
+                    {calculations.earlyClosureYears}Y {calculations.earlyClosureRemainingMonths}M
                   </div>
+                  <p className="text-xs md:text-sm text-green-600">
+                    Close loan early!
+                  </p>
                 </div>
               </div>
 
