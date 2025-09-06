@@ -180,9 +180,9 @@ const HomePage = () => {
                     step="0.1"
                     value={formData.pnbRate}
                     onChange={(e) => handleInputChange('pnbRate', e.target.value)}
-                    className="h-12 md:h-14 text-lg md:text-xl border-2 focus:border-red-600 bg-red-50 text-red-800 font-semibold"
+                    className="h-12 md:h-14 text-lg md:text-xl border-2 focus:border-green-600 bg-green-50 text-green-800 font-semibold"
                   />
-                  <p className="text-xs md:text-sm text-red-600 mt-1 font-medium">Punjab National Bank special offer rate</p>
+                  <p className="text-xs md:text-sm text-green-600 mt-1 font-medium">Punjab National Bank special offer rate</p>
                 </div>
 
                 <div>
