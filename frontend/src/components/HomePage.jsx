@@ -212,7 +212,7 @@ const HomePage = () => {
                         placeholder="Years"
                         value={formData.remainingYears}
                         onChange={(e) => handleInputChange('remainingYears', e.target.value)}
-                        className="h-14 text-xl border-2 focus:border-orange-500"
+                        className="h-14 text-xl border-2 focus:border-red-600"
                         min="0"
                         max="30"
                       />
