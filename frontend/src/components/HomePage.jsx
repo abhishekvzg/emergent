@@ -105,18 +105,19 @@ const HomePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-red-50">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-red-50">
       {/* Header */}
-      <header className="bg-white shadow-lg border-b-4 border-orange-500">
+      <header className="bg-gradient-to-r from-red-800 to-red-900 shadow-lg border-b-4 border-yellow-400">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-center">
-            <div className="flex items-center space-x-3">
-              <div className="bg-gradient-to-r from-orange-500 to-red-500 p-3 rounded-xl">
-                <Calculator className="h-8 w-8 text-white" />
+            <div className="flex items-center space-x-4">
+              {/* PNB Logo */}
+              <div className="bg-red-800 border-2 border-yellow-400 px-6 py-3 rounded-lg shadow-lg">
+                <div className="text-yellow-400 font-black text-2xl tracking-wider">PNB</div>
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">PNB Home Loan Calculator</h1>
-                <p className="text-gray-600">Calculate your savings instantly</p>
+                <h1 className="text-3xl font-bold text-white">Punjab National Bank</h1>
+                <p className="text-yellow-200">Home Loan Calculator - India's Trusted Bank Since 1894</p>
               </div>
             </div>
           </div>
