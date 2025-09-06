@@ -277,36 +277,36 @@ const HomePage = () => {
           {calculations && (
             <div className="space-y-8 text-center">
               {/* Total Savings Banner */}
-              <div className="bg-gradient-to-r from-green-500 to-emerald-500 text-white p-8 rounded-2xl shadow-xl">
-                <h3 className="text-2xl font-bold mb-4">Your Total Savings</h3>
-                <div className="text-6xl font-black mb-2">
+              <div className="bg-gradient-to-r from-red-700 to-red-800 text-white p-8 rounded-2xl shadow-xl border-2 border-yellow-400">
+                <h3 className="text-2xl font-bold mb-4 text-yellow-200">Your Total Savings with PNB</h3>
+                <div className="text-6xl font-black mb-2 text-yellow-300">
                   ₹{Math.abs(calculations.totalSavings).toLocaleString('en-IN')}
                 </div>
-                <p className="text-xl opacity-90">
+                <p className="text-xl opacity-90 text-yellow-200">
                   Over {Math.floor(calculations.remainingMonths / 12)} years {calculations.remainingMonths % 12} months
                 </p>
               </div>
 
               {/* Monthly Savings */}
-              <div className="bg-white p-6 rounded-xl shadow-lg border-2 border-green-200">
-                <h3 className="text-xl font-bold text-gray-900 mb-4">Your Monthly Savings</h3>
-                <div className="text-4xl font-bold text-green-600 mb-2">
+              <div className="bg-white p-6 rounded-xl shadow-lg border-2 border-red-300">
+                <h3 className="text-xl font-bold text-red-900 mb-4">Your Monthly Savings with PNB</h3>
+                <div className="text-4xl font-bold text-red-700 mb-2">
                   ₹{Math.abs(calculations.monthlySavings).toLocaleString('en-IN')}
                 </div>
-                <p className="text-gray-600">
+                <p className="text-red-600">
                   Every month for the remaining tenure
                 </p>
               </div>
 
               {/* Action Buttons */}
               <div className="space-y-3">
-                <Button className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600">
+                <Button className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 border-2 border-yellow-400 hover:border-yellow-300">
                   <Building2 className="mr-2 h-5 w-5" />
                   Switch to PNB Now
                 </Button>
                 <Button 
                   variant="outline" 
-                  className="w-full h-12 text-lg border-2 border-orange-500 text-orange-600 hover:bg-orange-50"
+                  className="w-full h-12 text-lg border-2 border-red-600 text-red-700 hover:bg-red-50"
                   onClick={() => setShowSavingsModal(false)}
                 >
                   Calculate Again
