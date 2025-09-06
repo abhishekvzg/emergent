@@ -40,7 +40,7 @@ const HomePage = () => {
     try {
       // Calculate based on remaining months and outstanding amount
       const outstandingAmount = parseFloat(formData.loanAmount[0]) * 100000; // Convert lakhs to rupees
-      const remainingTenureYears = parseFloat(formData.remainingMonths) / 12;
+      const remainingTenureYears = Math.max(0.5, parseFloat(formData.remainingMonths) / 12); // Minimum 0.5 years
       
       const requestData = {
         loanAmount: outstandingAmount,
@@ -50,17 +50,19 @@ const HomePage = () => {
         currentRate: parseFloat(formData.currentRate)
       };
 
+      console.log('Sending request:', requestData); // Debug log
+
       const response = await axios.post(`${API}/calculate-savings`, requestData);
       
-      // Adjust calculations for remaining tenure only
+      // Use the response data directly for remaining calculations
       const currentEMI = response.data.currentEMI;
       const pnbEMI = response.data.pnbEMI;
       const monthlySavings = currentEMI - pnbEMI;
       const totalSavings = monthlySavings * parseFloat(formData.remainingMonths);
       
       setCalculations({
-        currentEMI,
-        pnbEMI,
+        currentEMI: Math.round(currentEMI),
+        pnbEMI: Math.round(pnbEMI),
         monthlySavings: Math.round(monthlySavings),
         totalSavings: Math.round(totalSavings),
         remainingMonths: formData.remainingMonths
@@ -72,7 +74,7 @@ const HomePage = () => {
       console.error('Error calculating savings:', error);
       toast({
         title: "Calculation Error",
-        description: "Failed to calculate savings. Please try again.",
+        description: error.response?.data?.detail || "Failed to calculate savings. Please try again.",
         variant: "destructive"
       });
     } finally {
