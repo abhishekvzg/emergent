@@ -1,15 +1,17 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, HTTPException
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
 from pathlib import Path
-from pydantic import BaseModel, Field
-from typing import List
-import uuid
-from datetime import datetime
-
+from models import (
+    LoanCalculationRequest, 
+    LoanCalculationResponse, 
+    BankRatesResponse,
+    LoanCalculationHistory
+)
+from services import LoanCalculatorService
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -25,32 +27,61 @@ app = FastAPI()
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
+# Initialize service
+loan_service = LoanCalculatorService()
 
-# Define Models
-class StatusCheck(BaseModel):
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    client_name: str
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
-
-class StatusCheckCreate(BaseModel):
-    client_name: str
-
-# Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Home Loan Calculator API"}
 
-@api_router.post("/status", response_model=StatusCheck)
-async def create_status_check(input: StatusCheckCreate):
-    status_dict = input.dict()
-    status_obj = StatusCheck(**status_dict)
-    _ = await db.status_checks.insert_one(status_obj.dict())
-    return status_obj
+@api_router.post("/calculate-savings", response_model=LoanCalculationResponse)
+async def calculate_savings(request: LoanCalculationRequest):
+    """Calculate loan savings based on user input"""
+    try:
+        # Convert request to dict for service
+        request_data = request.dict()
+        
+        # Calculate savings using service
+        result = loan_service.calculate_loan_savings(request_data)
+        
+        # Optionally save calculation history to database
+        history_record = LoanCalculationHistory(
+            loanAmount=request.loanAmount,
+            startYear=request.startYear,
+            startMonth=request.startMonth,
+            tenure=request.tenure,
+            currentRate=request.currentRate,
+            calculatedSavings=result.totalSavings
+        )
+        
+        # Save to database (async)
+        await db.loan_calculations.insert_one(history_record.dict())
+        
+        return result
+        
+    except Exception as e:
+        logging.error(f"Error calculating savings: {str(e)}")
+        raise HTTPException(status_code=500, detail="Error calculating loan savings")
 
-@api_router.get("/status", response_model=List[StatusCheck])
-async def get_status_checks():
-    status_checks = await db.status_checks.find().to_list(1000)
-    return [StatusCheck(**status_check) for status_check in status_checks]
+@api_router.get("/bank-rates", response_model=BankRatesResponse)
+async def get_bank_rates():
+    """Get current bank rates"""
+    try:
+        rates_data = loan_service.get_bank_rates()
+        return BankRatesResponse(**rates_data)
+    except Exception as e:
+        logging.error(f"Error fetching bank rates: {str(e)}")
+        raise HTTPException(status_code=500, detail="Error fetching bank rates")
+
+@api_router.get("/calculation-history")
+async def get_calculation_history(limit: int = 10):
+    """Get recent calculation history"""
+    try:
+        calculations = await db.loan_calculations.find().sort("createdAt", -1).limit(limit).to_list(limit)
+        return {"calculations": calculations}
+    except Exception as e:
+        logging.error(f"Error fetching calculation history: {str(e)}")
+        raise HTTPException(status_code=500, detail="Error fetching calculation history")
 
 # Include the router in the main app
 app.include_router(api_router)
@@ -58,7 +89,7 @@ app.include_router(api_router)
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
