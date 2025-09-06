@@ -5,7 +5,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Slider } from './ui/slider';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
-import { Calculator, TrendingDown, Building2, ArrowRight } from 'lucide-react';
+import { Calculator, TrendingUp, Building2, ArrowRight, ExternalLink } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
 import axios from 'axios';
 
