@@ -319,7 +319,7 @@ const HomePage = () => {
             <div className="space-y-6 md:space-y-8 px-2 md:px-4">
               {/* Total Savings Banner */}
               <div className="bg-gradient-to-r from-red-700 to-red-800 text-white p-6 md:p-8 rounded-2xl shadow-xl border-2 border-yellow-400">
-                <h3 className="text-xl md:text-2xl font-bold mb-4 text-yellow-200">Your Total Savings with PNB</h3>
+                <h3 className="text-xl md:text-2xl font-bold mb-4 text-yellow-200">Your Total Savings with PNB Housing Loan</h3>
                 <div className="text-4xl md:text-6xl font-black mb-2 text-yellow-300">
                   ₹{Math.abs(calculations.totalSavings).toLocaleString('en-IN')}
                 </div>
