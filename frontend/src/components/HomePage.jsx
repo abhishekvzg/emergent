@@ -241,7 +241,7 @@ const HomePage = () => {
               <Button 
                 onClick={calculateSavings}
                 disabled={isCalculating || !formData.currentRate || !formData.loanAmount[0] || (!formData.remainingYears && !formData.remainingMonths)}
-                className="h-16 px-12 text-xl font-bold bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 transform hover:scale-105 transition-all duration-300 shadow-xl rounded-xl"
+                className="h-16 px-12 text-xl font-bold bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 border-2 border-yellow-400 hover:border-yellow-300 transform hover:scale-105 transition-all duration-300 shadow-xl rounded-xl text-white"
               >
                 {isCalculating ? (
                   <div className="flex items-center space-x-3">
