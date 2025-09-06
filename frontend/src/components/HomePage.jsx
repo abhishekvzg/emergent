@@ -123,18 +123,23 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-red-50">
+      {/* Enhanced backdrop blur when modal is open */}
+      {showSavingsModal && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-lg z-40" />
+      )}
+      
       {/* Header */}
       <header className="bg-gradient-to-r from-red-800 to-red-900 shadow-lg border-b-4 border-yellow-400">
-        <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="max-w-7xl mx-auto px-4 py-4 md:py-6">
           <div className="flex items-center justify-center">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3 md:space-x-4">
               {/* PNB Logo */}
-              <div className="bg-red-800 border-2 border-yellow-400 px-6 py-3 rounded-lg shadow-lg">
-                <div className="text-yellow-400 font-black text-2xl tracking-wider">PNB</div>
+              <div className="bg-red-800 border-2 border-yellow-400 px-4 py-2 md:px-6 md:py-3 rounded-lg shadow-lg">
+                <div className="text-yellow-400 font-black text-xl md:text-2xl tracking-wider">PNB</div>
               </div>
-              <div>
-                <h1 className="text-3xl font-bold text-white">Punjab National Bank</h1>
-                <p className="text-yellow-200">Home Loan Calculator - India's Trusted Bank Since 1894</p>
+              <div className="text-center md:text-left">
+                <h1 className="text-2xl md:text-3xl font-bold text-white">Punjab National Bank</h1>
+                <p className="text-yellow-200 text-sm md:text-base">Home Loan Calculator - India's Trusted Bank Since 1894</p>
               </div>
             </div>
           </div>
