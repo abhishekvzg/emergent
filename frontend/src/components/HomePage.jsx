@@ -14,15 +14,14 @@ const API = `${BACKEND_URL}/api`;
 
 const HomePage = () => {
   const [formData, setFormData] = useState({
-    loanAmount: '',
-    startYear: '',
-    startMonth: '',
-    tenure: '',
-    currentRate: ''
+    pnbRate: '6.5',
+    currentRate: '',
+    loanAmount: 50, // in lakhs
+    remainingMonths: ''
   });
   
   const [calculations, setCalculations] = useState(null);
-  const [showPNBModal, setShowPNBModal] = useState(false);
+  const [showSavingsModal, setShowSavingsModal] = useState(false);
   const [isCalculating, setIsCalculating] = useState(false);
   const [bankRates, setBankRates] = useState(null);
   const { toast } = useToast();
