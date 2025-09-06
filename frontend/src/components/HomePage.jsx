@@ -282,7 +282,7 @@ const HomePage = () => {
                   ₹{Math.abs(calculations.totalSavings).toLocaleString('en-IN')}
                 </div>
                 <p className="text-xl opacity-90">
-                  Over {calculations.remainingMonths} months
+                  Over {Math.floor(calculations.remainingMonths / 12)} years {calculations.remainingMonths % 12} months
                 </p>
               </div>
 
