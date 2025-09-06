@@ -279,7 +279,7 @@ const HomePage = () => {
                   <div className="flex justify-between items-center p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border-2 border-green-200">
                     <div>
                       <span className="font-bold text-green-800">PNB (Recommended)</span>
-                      <span className="text-sm text-green-600 ml-2">({mockData.pnbRate}% p.a.)</span>
+                      <span className="text-sm text-green-600 ml-2">({bankRates?.pnbRate || 6.5}% p.a.)</span>
                     </div>
                     <div className="text-right">
                       <div className="font-bold text-green-800">₹{calculations.pnbEMI.toLocaleString('en-IN')}/mo</div>
