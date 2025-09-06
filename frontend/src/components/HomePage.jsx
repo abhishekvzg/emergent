@@ -185,6 +185,25 @@ const HomePage = () => {
                   <Label className="text-lg font-semibold text-gray-700 mb-4 block">
                     Your Loan Amount Outstanding ({formatLoanAmount(formData.loanAmount[0])})
                   </Label>
+                  
+                  {/* Input box for loan amount */}
+                  <div className="mb-4">
+                    <Input
+                      type="number"
+                      placeholder="Enter amount in lakhs"
+                      value={formData.loanAmount[0]}
+                      onChange={(e) => {
+                        const value = Math.max(10, Math.min(500, parseFloat(e.target.value) || 10));
+                        handleInputChange('loanAmount', [value]);
+                      }}
+                      className="h-14 text-xl border-2 focus:border-red-600"
+                      min="10"
+                      max="500"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Amount in lakhs (10 to 500)</p>
+                  </div>
+                  
+                  {/* Slider synchronized with input */}
                   <div className="px-4">
                     <Slider
                       value={formData.loanAmount}
