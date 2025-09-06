@@ -342,16 +342,13 @@ const HomePage = () => {
                 </div>
 
                 {/* Early Loan Closure */}
-                <div className="bg-gradient-to-r from-green-100 to-emerald-100 p-4 md:p-6 rounded-xl shadow-lg border-2 border-green-300">
-                  <h3 className="text-lg md:text-xl font-bold text-green-900 mb-4">Early Loan Closure Benefit</h3>
+                <div className="bg-white p-4 md:p-6 rounded-xl shadow-lg border-2 border-red-300">
+                  <h3 className="text-lg md:text-xl font-bold text-red-900 mb-4">Early Loan Closure Benefit</h3>
                   <div className="text-center">
-                    <p className="text-sm md:text-lg text-green-700 mb-2">
-                      If you continue paying your current EMI of <span className="font-bold">₹{calculations.currentEMI.toLocaleString('en-IN')}</span>
-                    </p>
-                    <div className="text-2xl md:text-3xl font-bold text-green-800 mb-2">
+                    <div className="text-2xl md:text-3xl font-bold text-red-700 mb-2">
                       {calculations.earlyClosureYears} Years {calculations.earlyClosureRemainingMonths} Months
                     </div>
-                    <p className="text-sm md:text-base text-green-600">
+                    <p className="text-sm md:text-base text-red-600">
                       You can close your PNB loan early and save more!
                     </p>
                   </div>
