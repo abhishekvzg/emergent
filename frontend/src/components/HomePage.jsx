@@ -158,7 +158,6 @@ const HomePage = () => {
                     value={formData.pnbRate}
                     onChange={(e) => handleInputChange('pnbRate', e.target.value)}
                     className="h-14 text-xl border-2 focus:border-orange-500 bg-orange-50"
-                    disabled
                   />
                   <p className="text-sm text-gray-500 mt-1">Special offer rate for home loans</p>
                 </div>
