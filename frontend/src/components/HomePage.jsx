@@ -52,7 +52,7 @@ const HomePage = () => {
         return;
       }
       
-      // Simple frontend calculation (bypass backend for now)
+      // Simple frontend calculation
       const outstandingAmount = parseFloat(formData.loanAmount[0]) * 100000; // Convert lakhs to rupees
       const remainingTenureYears = Math.max(0.5, totalMonths / 12);
       
