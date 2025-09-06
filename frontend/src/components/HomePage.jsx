@@ -161,12 +161,12 @@ const HomePage = () => {
           </Card>
 
           {/* Input Form */}
-          <Card className="p-8 shadow-xl bg-white/90 backdrop-blur-sm">
-            <div className="grid md:grid-cols-2 gap-8">
+          <Card className="p-6 md:p-8 shadow-xl bg-white/90 backdrop-blur-sm">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
               {/* Left Column */}
               <div className="space-y-6">
                 <div>
-                  <Label htmlFor="pnbRate" className="text-lg font-semibold text-gray-700 mb-2 block">
+                  <Label htmlFor="pnbRate" className="text-base md:text-lg font-semibold text-gray-700 mb-2 block">
                     PNB Home Loan Interest Rate (% p.a.)
                   </Label>
                   <Input
@@ -175,13 +175,13 @@ const HomePage = () => {
                     step="0.1"
                     value={formData.pnbRate}
                     onChange={(e) => handleInputChange('pnbRate', e.target.value)}
-                    className="h-14 text-xl border-2 focus:border-red-600 bg-red-50 text-red-800 font-semibold"
+                    className="h-12 md:h-14 text-lg md:text-xl border-2 focus:border-red-600 bg-red-50 text-red-800 font-semibold"
                   />
-                  <p className="text-sm text-red-600 mt-1 font-medium">Punjab National Bank special offer rate</p>
+                  <p className="text-xs md:text-sm text-red-600 mt-1 font-medium">Punjab National Bank special offer rate</p>
                 </div>
 
                 <div>
-                  <Label htmlFor="currentRate" className="text-lg font-semibold text-gray-700 mb-2 block">
+                  <Label htmlFor="currentRate" className="text-base md:text-lg font-semibold text-gray-700 mb-2 block">
                     Your Present Home Loan Interest Rate (% p.a.)
                   </Label>
                   <Input
@@ -191,7 +191,7 @@ const HomePage = () => {
                     placeholder="e.g., 8.5"
                     value={formData.currentRate}
                     onChange={(e) => handleInputChange('currentRate', e.target.value)}
-                    className="h-14 text-xl border-2 focus:border-red-600"
+                    className="h-12 md:h-14 text-lg md:text-xl border-2 focus:border-red-600"
                   />
                 </div>
               </div>
@@ -199,7 +199,7 @@ const HomePage = () => {
               {/* Right Column */}
               <div className="space-y-6">
                 <div>
-                  <Label className="text-lg font-semibold text-gray-700 mb-4 block">
+                  <Label className="text-base md:text-lg font-semibold text-gray-700 mb-4 block">
                     Your Loan Amount Outstanding ({formatLoanAmount(formData.loanAmount[0])})
                   </Label>
                   
@@ -213,7 +213,7 @@ const HomePage = () => {
                         const value = Math.max(10, Math.min(500, parseFloat(e.target.value) || 10));
                         handleInputChange('loanAmount', [value]);
                       }}
-                      className="h-14 text-xl border-2 focus:border-red-600"
+                      className="h-12 md:h-14 text-lg md:text-xl border-2 focus:border-red-600"
                       min="10"
                       max="500"
                     />
@@ -221,7 +221,7 @@ const HomePage = () => {
                   </div>
                   
                   {/* Slider synchronized with input */}
-                  <div className="px-4">
+                  <div className="px-2 md:px-4">
                     <Slider
                       value={formData.loanAmount}
                       onValueChange={(value) => handleInputChange('loanAmount', value)}
@@ -230,7 +230,7 @@ const HomePage = () => {
                       step={5}
                       className="w-full"
                     />
-                    <div className="flex justify-between text-sm text-gray-500 mt-2">
+                    <div className="flex justify-between text-xs md:text-sm text-gray-500 mt-2">
                       <span>₹10L</span>
                       <span>₹5 Cr</span>
                     </div>
@@ -238,7 +238,7 @@ const HomePage = () => {
                 </div>
 
                 <div>
-                  <Label className="text-lg font-semibold text-gray-700 mb-2 block">
+                  <Label className="text-base md:text-lg font-semibold text-gray-700 mb-2 block">
                     Remaining Tenure
                   </Label>
                   <div className="grid grid-cols-2 gap-4">
@@ -248,7 +248,7 @@ const HomePage = () => {
                         placeholder="Years"
                         value={formData.remainingYears}
                         onChange={(e) => handleInputChange('remainingYears', e.target.value)}
-                        className="h-14 text-xl border-2 focus:border-red-600"
+                        className="h-12 md:h-14 text-lg md:text-xl border-2 focus:border-red-600"
                         min="0"
                         max="30"
                       />
@@ -260,24 +260,24 @@ const HomePage = () => {
                         placeholder="Months"
                         value={formData.remainingMonths}
                         onChange={(e) => handleInputChange('remainingMonths', e.target.value)}
-                        className="h-14 text-xl border-2 focus:border-red-600"
+                        className="h-12 md:h-14 text-lg md:text-xl border-2 focus:border-red-600"
                         min="0"
                         max="11"
                       />
                       <p className="text-xs text-gray-500 mt-1 text-center">Months</p>
                     </div>
                   </div>
-                  <p className="text-sm text-gray-500 mt-2">Enter remaining loan tenure (e.g., 4 years 3 months)</p>
+                  <p className="text-xs md:text-sm text-gray-500 mt-2">Enter remaining loan tenure (e.g., 4 years 3 months)</p>
                 </div>
               </div>
             </div>
 
             {/* Click Here Button */}
-            <div className="mt-12 text-center">
+            <div className="mt-8 md:mt-12 text-center">
               <Button 
                 onClick={calculateSavings}
                 disabled={isCalculating || !formData.currentRate || !formData.loanAmount[0] || (!formData.remainingYears && !formData.remainingMonths)}
-                className="h-16 px-12 text-xl font-bold bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 border-2 border-yellow-400 hover:border-yellow-300 transform hover:scale-105 transition-all duration-300 shadow-xl rounded-xl text-white"
+                className="h-14 md:h-16 px-8 md:px-12 text-lg md:text-xl font-bold bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 border-2 border-yellow-400 hover:border-yellow-300 transform hover:scale-105 transition-all duration-300 shadow-xl rounded-xl text-white"
               >
                 {isCalculating ? (
                   <div className="flex items-center space-x-3">
