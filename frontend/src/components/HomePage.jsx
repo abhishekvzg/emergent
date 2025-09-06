@@ -301,73 +301,73 @@ const HomePage = () => {
         </div>
       </main>
 
-      {/* Savings Modal - Fixed positioning and responsive */}
+      {/* Savings Modal - Compact non-scrollable design */}
       <Dialog open={showSavingsModal} onOpenChange={setShowSavingsModal}>
-        <DialogContent className="fixed top-4 left-4 right-4 bottom-4 max-w-none md:max-w-4xl md:top-1/2 md:left-1/2 md:right-auto md:bottom-auto md:-translate-x-1/2 md:-translate-y-1/2 max-h-[calc(100vh-2rem)] overflow-y-auto bg-gradient-to-br from-red-50 to-yellow-50 border-2 border-red-300 backdrop-blur-xl z-50">
-          <DialogHeader className="pb-4 sticky top-0 bg-gradient-to-br from-red-50 to-yellow-50 z-10">
-            <div className="text-center space-y-4">
-              <div className="mx-auto w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-red-700 to-red-800 rounded-full flex items-center justify-center border-2 border-yellow-400 shadow-lg">
-                <TrendingUp className="h-8 w-8 md:h-10 md:w-10 text-yellow-300" />
+        <DialogContent className="max-w-lg md:max-w-2xl max-h-[85vh] bg-gradient-to-br from-red-50 to-yellow-50 border-2 border-red-300 backdrop-blur-xl overflow-hidden">
+          <DialogHeader className="pb-3">
+            <div className="text-center space-y-3">
+              <div className="mx-auto w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-red-700 to-red-800 rounded-full flex items-center justify-center border-2 border-yellow-400 shadow-lg">
+                <TrendingUp className="h-6 w-6 md:h-8 md:w-8 text-yellow-300" />
               </div>
-              <DialogTitle className="text-2xl md:text-3xl font-bold text-red-900">
+              <DialogTitle className="text-xl md:text-2xl font-bold text-red-900">
                 Your PNB Savings Calculation
               </DialogTitle>
             </div>
           </DialogHeader>
-          
+
           {calculations && (
-            <div className="space-y-6 md:space-y-8 px-2 md:px-4">
-              {/* Total Savings Banner */}
-              <div className="bg-gradient-to-r from-red-700 to-red-800 text-white p-6 md:p-8 rounded-2xl shadow-xl border-2 border-yellow-400">
-                <h3 className="text-xl md:text-2xl font-bold mb-4 text-yellow-200">Your Total Savings with PNB Housing Loan</h3>
-                <div className="text-4xl md:text-6xl font-black mb-2 text-yellow-300">
+            <div className="space-y-4 px-2">
+              {/* Total Savings Banner - Compact */}
+              <div className="bg-gradient-to-r from-red-700 to-red-800 text-white p-4 md:p-6 rounded-xl shadow-lg border-2 border-yellow-400">
+                <h3 className="text-lg md:text-xl font-bold mb-2 text-yellow-200">Your Total Savings with PNB Housing Loan</h3>
+                <div className="text-3xl md:text-4xl font-black mb-1 text-yellow-300">
                   ₹{Math.abs(calculations.totalSavings).toLocaleString('en-IN')}
                 </div>
-                <p className="text-lg md:text-xl opacity-90 text-yellow-200">
+                <p className="text-sm md:text-base opacity-90 text-yellow-200">
                   Over {Math.floor(calculations.remainingMonths / 12)} years {calculations.remainingMonths % 12} months
                 </p>
               </div>
 
-              {/* Grid for smaller cards on mobile */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                {/* Monthly Savings */}
-                <div className="bg-white p-4 md:p-6 rounded-xl shadow-lg border-2 border-red-300">
-                  <h3 className="text-lg md:text-xl font-bold text-red-900 mb-4">Your Monthly Savings with PNB</h3>
-                  <div className="text-2xl md:text-4xl font-bold text-red-700 mb-2">
+              {/* Compact Grid for smaller cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                {/* Monthly Savings - Compact */}
+                <div className="bg-white p-3 md:p-4 rounded-lg shadow-md border-2 border-red-300">
+                  <h3 className="text-base md:text-lg font-bold text-red-900 mb-2">Monthly Savings with PNB</h3>
+                  <div className="text-2xl md:text-3xl font-bold text-red-700 mb-1">
                     ₹{Math.abs(calculations.monthlySavings).toLocaleString('en-IN')}
                   </div>
-                  <p className="text-sm md:text-base text-red-600">
-                    Every month for the remaining tenure
+                  <p className="text-xs md:text-sm text-red-600">
+                    Every month
                   </p>
                 </div>
 
-                {/* Early Loan Closure */}
-                <div className="bg-white p-4 md:p-6 rounded-xl shadow-lg border-2 border-red-300">
-                  <h3 className="text-lg md:text-xl font-bold text-red-900 mb-4">Early Loan Closure Benefit</h3>
+                {/* Early Loan Closure - Compact with same theme */}
+                <div className="bg-white p-3 md:p-4 rounded-lg shadow-md border-2 border-red-300">
+                  <h3 className="text-base md:text-lg font-bold text-red-900 mb-2">Early Loan Closure</h3>
                   <div className="text-center">
-                    <div className="text-2xl md:text-3xl font-bold text-red-700 mb-2">
-                      {calculations.earlyClosureYears} Years {calculations.earlyClosureRemainingMonths} Months
+                    <div className="text-2xl md:text-3xl font-bold text-red-700 mb-1">
+                      {calculations.earlyClosureYears}Y {calculations.earlyClosureRemainingMonths}M
                     </div>
-                    <p className="text-sm md:text-base text-red-600">
-                      You can close your PNB loan early and save more!
+                    <p className="text-xs md:text-sm text-red-600">
+                      Close loan early!
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="space-y-3 pt-4">
+              {/* Compact Action Buttons */}
+              <div className="space-y-3 pt-2">
                 <Button 
-                  className="w-full h-12 md:h-14 text-base md:text-lg font-semibold bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 border-2 border-yellow-400 hover:border-yellow-300"
+                  className="w-full h-10 md:h-12 text-sm md:text-base font-semibold bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 border-2 border-yellow-400 hover:border-yellow-300"
                   onClick={() => window.open('https://www.pnbhousing.com/home-loan', '_blank')}
                 >
-                  <Building2 className="mr-2 h-4 w-4 md:h-5 md:w-5" />
+                  <Building2 className="mr-2 h-4 w-4" />
                   Switch to PNB Now
-                  <ExternalLink className="ml-2 h-3 w-3 md:h-4 md:w-4" />
+                  <ExternalLink className="ml-2 h-3 w-3" />
                 </Button>
                 <Button 
                   variant="outline" 
-                  className="w-full h-12 md:h-14 text-base md:text-lg border-2 border-red-600 text-red-700 hover:bg-red-50"
+                  className="w-full h-10 md:h-12 text-sm md:text-base border-2 border-red-600 text-red-700 hover:bg-red-50"
                   onClick={() => setShowSavingsModal(false)}
                 >
                   Calculate Again
