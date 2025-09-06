@@ -205,7 +205,7 @@ const HomePage = () => {
               <div className="space-y-6">
                 <div>
                   <Label className="text-base md:text-lg font-semibold text-gray-700 mb-4 block">
-                    Your Loan Amount Outstanding ({formatLoanAmount(formData.loanAmount[0])})
+                    Your Loan Amount Outstanding (in Rupees) {formData.loanAmount[0] && `- ${formatLoanAmount(formData.loanAmount[0])}`}
                   </Label>
                   
                   {/* Input box for loan amount */}
@@ -228,7 +228,7 @@ const HomePage = () => {
                   {/* Slider synchronized with input */}
                   <div className="px-2 md:px-4">
                     <Slider
-                      value={formData.loanAmount}
+                      value={formData.loanAmount[0] ? formData.loanAmount : [50]}
                       onValueChange={(value) => handleInputChange('loanAmount', value)}
                       max={500}
                       min={10}
