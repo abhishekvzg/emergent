@@ -239,7 +239,7 @@ const HomePage = () => {
             <div className="mt-12 text-center">
               <Button 
                 onClick={calculateSavings}
-                disabled={isCalculating || !formData.currentRate || !formData.loanAmount[0] || !formData.remainingMonths}
+                disabled={isCalculating || !formData.currentRate || !formData.loanAmount[0] || (!formData.remainingYears && !formData.remainingMonths)}
                 className="h-16 px-12 text-xl font-bold bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 transform hover:scale-105 transition-all duration-300 shadow-xl rounded-xl"
               >
                 {isCalculating ? (
