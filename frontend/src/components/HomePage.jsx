@@ -14,7 +14,7 @@ const API = `${BACKEND_URL}/api`;
 
 const HomePage = () => {
   const [formData, setFormData] = useState({
-    pnbRate: '6.5',
+    pnbRate: '7.5',
     currentRate: '',
     loanAmount: [50], // in lakhs (slider value as array)
     remainingYears: '',
