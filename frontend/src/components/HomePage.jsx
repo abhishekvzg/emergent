@@ -301,11 +301,10 @@ const HomePage = () => {
         </div>
       </main>
 
-      {/* Savings Modal */}
+      {/* Savings Modal - Fixed positioning and responsive */}
       <Dialog open={showSavingsModal} onOpenChange={setShowSavingsModal}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-to-br from-red-50 to-yellow-50 border-2 border-red-300 backdrop-blur-xl">
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-md -z-10" />
-          <DialogHeader className="pb-4">
+        <DialogContent className="fixed top-4 left-4 right-4 bottom-4 max-w-none md:max-w-4xl md:top-1/2 md:left-1/2 md:right-auto md:bottom-auto md:-translate-x-1/2 md:-translate-y-1/2 max-h-[calc(100vh-2rem)] overflow-y-auto bg-gradient-to-br from-red-50 to-yellow-50 border-2 border-red-300 backdrop-blur-xl z-50">
+          <DialogHeader className="pb-4 sticky top-0 bg-gradient-to-br from-red-50 to-yellow-50 z-10">
             <div className="text-center space-y-4">
               <div className="mx-auto w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-red-700 to-red-800 rounded-full flex items-center justify-center border-2 border-yellow-400 shadow-lg">
                 <TrendingUp className="h-8 w-8 md:h-10 md:w-10 text-yellow-300" />
