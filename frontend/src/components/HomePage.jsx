@@ -137,11 +137,11 @@ const HomePage = () => {
             </p>
           </Card>
 
-          {/* Know Your Gain Section */}
-          <div className="text-center mb-8">
-            <h3 className="text-3xl font-bold text-gray-900 mb-2">Know Your Gain Here</h3>
-            <p className="text-gray-600">Enter your details below to calculate potential savings</p>
-          </div>
+          {/* Know Your Gain Section - Now in a highlighted box */}
+          <Card className="p-8 text-center bg-gradient-to-r from-yellow-100 to-amber-100 border-2 border-yellow-400 shadow-xl">
+            <h3 className="text-3xl font-bold text-red-900 mb-2">Know Your Gain Here</h3>
+            <p className="text-red-700 text-lg">Enter your details below to calculate potential savings with PNB</p>
+          </Card>
 
           {/* Input Form */}
           <Card className="p-8 shadow-xl bg-white/90 backdrop-blur-sm">
