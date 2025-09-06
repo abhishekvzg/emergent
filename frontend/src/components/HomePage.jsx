@@ -193,7 +193,7 @@ const HomePage = () => {
                     id="currentRate"
                     type="number"
                     step="0.1"
-                    placeholder="e.g., 8.5"
+                    placeholder=""
                     value={formData.currentRate}
                     onChange={(e) => handleInputChange('currentRate', e.target.value)}
                     className="h-12 md:h-14 text-lg md:text-xl border-2 focus:border-red-600"
