@@ -215,28 +215,28 @@ const HomePage = () => {
                       placeholder="Enter amount in lakhs"
                       value={formData.loanAmount[0]}
                       onChange={(e) => {
-                        const value = Math.max(10, Math.min(500, parseFloat(e.target.value) || 10));
+                        const value = Math.max(0, Math.min(500, parseFloat(e.target.value) || 0));
                         handleInputChange('loanAmount', [value]);
                       }}
                       className="h-12 md:h-14 text-lg md:text-xl border-2 focus:border-red-600"
-                      min="10"
+                      min="0"
                       max="500"
                     />
-                    <p className="text-xs text-gray-500 mt-1">Amount in lakhs (10 to 500)</p>
+                    <p className="text-xs text-gray-500 mt-1">Amount in lakhs (0 to 500)</p>
                   </div>
                   
                   {/* Slider synchronized with input */}
                   <div className="px-2 md:px-4">
                     <Slider
-                      value={formData.loanAmount[0] ? formData.loanAmount : [50]}
+                      value={formData.loanAmount[0] ? formData.loanAmount : [0]}
                       onValueChange={(value) => handleInputChange('loanAmount', value)}
                       max={500}
-                      min={10}
-                      step={5}
+                      min={0}
+                      step={1}
                       className="w-full"
                     />
                     <div className="flex justify-between text-xs md:text-sm text-gray-500 mt-2">
-                      <span>₹10L</span>
+                      <span>₹0</span>
                       <span>₹5 Cr</span>
                     </div>
                   </div>
