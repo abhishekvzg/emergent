@@ -313,7 +313,7 @@ const HomePage = () => {
           <div className="space-y-6 text-center">
             <div className="space-y-2">
               <h4 className="text-xl font-bold text-gray-900">Special Home Loan Offer</h4>
-              <p className="text-2xl font-bold text-orange-600">{mockData.pnbRate}% Interest Rate</p>
+              <p className="text-2xl font-bold text-orange-600">{bankRates?.pnbRate || 6.5}% Interest Rate</p>
               <p className="text-gray-600">India's trusted banking partner since 1894</p>
             </div>
             
