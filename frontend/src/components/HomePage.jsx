@@ -17,6 +17,7 @@ const HomePage = () => {
     pnbRate: '6.5',
     currentRate: '',
     loanAmount: [50], // in lakhs (slider value as array)
+    remainingYears: '',
     remainingMonths: ''
   });
   
