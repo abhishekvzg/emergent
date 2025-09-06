@@ -141,23 +141,23 @@ const HomePage = () => {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-12">
+      <main className="max-w-4xl mx-auto px-4 py-8 md:py-12">
         {/* Main Content */}
-        <div className="space-y-8">
+        <div className="space-y-6 md:space-y-8">
           {/* Big Center Box */}
-          <Card className="p-12 text-center bg-gradient-to-br from-red-800 to-red-900 text-white shadow-2xl border-2 border-yellow-400">
-            <h2 className="text-5xl font-black mb-4 leading-tight">
+          <Card className="p-8 md:p-12 text-center bg-gradient-to-br from-red-800 to-red-900 text-white shadow-2xl border-2 border-yellow-400">
+            <h2 className="text-3xl md:text-5xl font-black mb-4 leading-tight">
               GAIN BIG WITH PNB HOME LOANS
             </h2>
-            <p className="text-xl opacity-90 text-yellow-200">
+            <p className="text-lg md:text-xl opacity-90 text-yellow-200">
               Switch to India's most trusted bank and save thousands every month
             </p>
           </Card>
 
           {/* Know Your Gain Section - Now in a highlighted box */}
-          <Card className="p-8 text-center bg-gradient-to-r from-yellow-100 to-amber-100 border-2 border-yellow-400 shadow-xl">
-            <h3 className="text-3xl font-bold text-red-900 mb-2">Know Your Gain Here</h3>
-            <p className="text-red-700 text-lg">Enter your details below to calculate potential savings with PNB</p>
+          <Card className="p-6 md:p-8 text-center bg-gradient-to-r from-yellow-100 to-amber-100 border-2 border-yellow-400 shadow-xl">
+            <h3 className="text-2xl md:text-3xl font-bold text-red-900 mb-2">Know Your Gain Here</h3>
+            <p className="text-red-700 text-base md:text-lg">Enter your details below to calculate potential savings with PNB</p>
           </Card>
 
           {/* Input Form */}
