@@ -96,6 +96,14 @@ const HomePage = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  // Helper function to format loan amount display
+  const formatLoanAmount = (amountInLakhs) => {
+    if (amountInLakhs >= 100) {
+      return `₹${(amountInLakhs / 100).toFixed(1)} Crores`;
+    }
+    return `₹${amountInLakhs} Lakhs`;
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-red-50">
       {/* Header */}
