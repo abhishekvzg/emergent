@@ -27,10 +27,11 @@ const HomePage = () => {
   const { toast } = useToast();
 
   const calculateSavings = async () => {
-    if (!formData.currentRate || !formData.loanAmount[0] || (!formData.remainingYears && !formData.remainingMonths)) {
+    // Validation
+    if (!formData.currentRate || !formData.loanAmount[0] || formData.loanAmount[0] <= 0 || (!formData.remainingYears && !formData.remainingMonths)) {
       toast({
         title: "Missing Information",
-        description: "Please fill in all required fields.",
+        description: "Please fill in all required fields with valid values.",
         variant: "destructive"
       });
       return;
@@ -52,12 +53,23 @@ const HomePage = () => {
         return;
       }
       
-      // Simple frontend calculation
+      // Convert inputs to numbers
       const outstandingAmount = parseFloat(formData.loanAmount[0]) * 100000; // Convert lakhs to rupees
-      const remainingTenureYears = Math.max(0.5, totalMonths / 12);
+      const currentRate = parseFloat(formData.currentRate);
+      const pnbRate = parseFloat(formData.pnbRate);
+      const remainingTenureYears = totalMonths / 12;
+      
+      console.log('Calculation inputs:', {
+        outstandingAmount,
+        currentRate,
+        pnbRate,
+        totalMonths,
+        remainingTenureYears
+      });
       
       // Calculate EMI function
       const calculateEMI = (principal, rate, tenure) => {
+        if (principal <= 0 || rate <= 0 || tenure <= 0) return 0;
         const monthlyRate = rate / (12 * 100);
         const numberOfPayments = tenure * 12;
         if (monthlyRate === 0) return principal / numberOfPayments;
@@ -65,24 +77,41 @@ const HomePage = () => {
                (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
       };
       
-      const currentEMI = calculateEMI(outstandingAmount, parseFloat(formData.currentRate), remainingTenureYears);
-      const pnbEMI = calculateEMI(outstandingAmount, parseFloat(formData.pnbRate), remainingTenureYears);
+      const currentEMI = calculateEMI(outstandingAmount, currentRate, remainingTenureYears);
+      const pnbEMI = calculateEMI(outstandingAmount, pnbRate, remainingTenureYears);
       const monthlySavings = currentEMI - pnbEMI;
       const totalSavings = monthlySavings * totalMonths;
       
-      // Calculate early closure with same EMI
-      const calculateEarlyClosureMonths = (principal, rate, currentEMI) => {
-        const monthlyRate = rate / (12 * 100);
-        if (monthlyRate === 0) return Math.ceil(principal / currentEMI);
+      // Calculate early closure with current EMI amount at PNB rate
+      const calculateEarlyClosureMonths = (principal, rate, emiAmount) => {
+        if (principal <= 0 || rate <= 0 || emiAmount <= 0) return 0;
         
-        // Using loan amortization formula to find remaining months
-        const months = Math.log(1 + (principal * monthlyRate) / currentEMI) / Math.log(1 + monthlyRate);
-        return Math.ceil(months);
+        const monthlyRate = rate / (12 * 100);
+        if (monthlyRate === 0) return Math.ceil(principal / emiAmount);
+        
+        // If EMI is too small, return a large number
+        if (emiAmount <= principal * monthlyRate) {
+          return 999; // EMI too small to ever pay off loan
+        }
+        
+        // Calculate months using loan payoff formula
+        const months = Math.log(1 + (principal * monthlyRate) / emiAmount) / Math.log(1 + monthlyRate);
+        return Math.max(1, Math.ceil(months));
       };
       
-      const earlyClosureMonths = calculateEarlyClosureMonths(outstandingAmount, parseFloat(formData.pnbRate), currentEMI);
+      const earlyClosureMonths = calculateEarlyClosureMonths(outstandingAmount, pnbRate, currentEMI);
       const earlyClosureYears = Math.floor(earlyClosureMonths / 12);
       const earlyClosureRemainingMonths = earlyClosureMonths % 12;
+      
+      console.log('Calculation results:', {
+        currentEMI,
+        pnbEMI,
+        monthlySavings,
+        totalSavings,
+        earlyClosureMonths,
+        earlyClosureYears,
+        earlyClosureRemainingMonths
+      });
       
       setCalculations({
         currentEMI: Math.round(currentEMI),
@@ -90,9 +119,9 @@ const HomePage = () => {
         monthlySavings: Math.round(monthlySavings),
         totalSavings: Math.round(totalSavings),
         remainingMonths: totalMonths,
-        earlyClosureYears,
-        earlyClosureRemainingMonths,
-        earlyClosureMonths
+        earlyClosureYears: earlyClosureYears >= 99 ? 99 : earlyClosureYears,
+        earlyClosureRemainingMonths: earlyClosureYears >= 99 ? 0 : earlyClosureRemainingMonths,
+        earlyClosureMonths: earlyClosureMonths >= 999 ? 999 : earlyClosureMonths
       });
       
       setShowSavingsModal(true);
