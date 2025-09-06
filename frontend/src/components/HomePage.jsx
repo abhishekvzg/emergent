@@ -284,31 +284,28 @@ const HomePage = () => {
               <div className="space-y-6">
                 <div>
                   <Label className="text-base md:text-lg font-semibold text-gray-700 mb-4 block">
-                    Your Loan Amount Outstanding (in Rupees) {formData.loanAmount[0] && `- ${formatLoanAmount(formData.loanAmount[0])}`}
+                    Your Loan Amount Outstanding (in Rupees) {formatRupeesDisplay(formData.loanAmountRupees)}
                   </Label>
                   
-                  {/* Input box for loan amount */}
+                  {/* Input box for loan amount in rupees */}
                   <div className="mb-4">
                     <Input
                       type="number"
-                      placeholder="Enter amount in lakhs"
-                      value={formData.loanAmount[0]}
-                      onChange={(e) => {
-                        const value = Math.max(0, Math.min(500, parseFloat(e.target.value) || 0));
-                        handleInputChange('loanAmount', [value]);
-                      }}
+                      placeholder="Enter amount in rupees (e.g., 5000000)"
+                      value={formData.loanAmountRupees}
+                      onChange={(e) => handleRupeesChange(e.target.value)}
                       className="h-12 md:h-14 text-lg md:text-xl border-2 focus:border-red-600"
                       min="0"
-                      max="500"
+                      max="50000000"
                     />
-                    <p className="text-xs text-gray-500 mt-1">Amount in lakhs (0 to 500)</p>
+                    <p className="text-xs text-gray-500 mt-1">Amount in rupees (up to ₹5 Crores)</p>
                   </div>
                   
-                  {/* Slider synchronized with input */}
+                  {/* Slider synchronized with input - still in lakhs */}
                   <div className="px-2 md:px-4">
                     <Slider
                       value={formData.loanAmount[0] ? formData.loanAmount : [0]}
-                      onValueChange={(value) => handleInputChange('loanAmount', value)}
+                      onValueChange={handleSliderChange}
                       max={500}
                       min={0}
                       step={1}
