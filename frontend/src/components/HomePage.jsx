@@ -312,58 +312,61 @@ const HomePage = () => {
           </DialogHeader>
           
           {calculations && (
-            <div className="space-y-8 text-center">
+            <div className="space-y-6 md:space-y-8 px-2 md:px-4">
               {/* Total Savings Banner */}
-              <div className="bg-gradient-to-r from-red-700 to-red-800 text-white p-8 rounded-2xl shadow-xl border-2 border-yellow-400">
-                <h3 className="text-2xl font-bold mb-4 text-yellow-200">Your Total Savings with PNB</h3>
-                <div className="text-6xl font-black mb-2 text-yellow-300">
+              <div className="bg-gradient-to-r from-red-700 to-red-800 text-white p-6 md:p-8 rounded-2xl shadow-xl border-2 border-yellow-400">
+                <h3 className="text-xl md:text-2xl font-bold mb-4 text-yellow-200">Your Total Savings with PNB</h3>
+                <div className="text-4xl md:text-6xl font-black mb-2 text-yellow-300">
                   ₹{Math.abs(calculations.totalSavings).toLocaleString('en-IN')}
                 </div>
-                <p className="text-xl opacity-90 text-yellow-200">
+                <p className="text-lg md:text-xl opacity-90 text-yellow-200">
                   Over {Math.floor(calculations.remainingMonths / 12)} years {calculations.remainingMonths % 12} months
                 </p>
               </div>
 
-              {/* Monthly Savings */}
-              <div className="bg-white p-6 rounded-xl shadow-lg border-2 border-red-300">
-                <h3 className="text-xl font-bold text-red-900 mb-4">Your Monthly Savings with PNB</h3>
-                <div className="text-4xl font-bold text-red-700 mb-2">
-                  ₹{Math.abs(calculations.monthlySavings).toLocaleString('en-IN')}
-                </div>
-                <p className="text-red-600">
-                  Every month for the remaining tenure
-                </p>
-              </div>
-
-              {/* Early Loan Closure */}
-              <div className="bg-gradient-to-r from-green-100 to-emerald-100 p-6 rounded-xl shadow-lg border-2 border-green-300">
-                <h3 className="text-xl font-bold text-green-900 mb-4">Early Loan Closure Benefit</h3>
-                <div className="text-center">
-                  <p className="text-lg text-green-700 mb-2">
-                    If you continue paying your current EMI of <span className="font-bold">₹{calculations.currentEMI.toLocaleString('en-IN')}</span>
-                  </p>
-                  <div className="text-3xl font-bold text-green-800 mb-2">
-                    {calculations.earlyClosureYears} Years {calculations.earlyClosureRemainingMonths} Months
+              {/* Grid for smaller cards on mobile */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                {/* Monthly Savings */}
+                <div className="bg-white p-4 md:p-6 rounded-xl shadow-lg border-2 border-red-300">
+                  <h3 className="text-lg md:text-xl font-bold text-red-900 mb-4">Your Monthly Savings with PNB</h3>
+                  <div className="text-2xl md:text-4xl font-bold text-red-700 mb-2">
+                    ₹{Math.abs(calculations.monthlySavings).toLocaleString('en-IN')}
                   </div>
-                  <p className="text-green-600">
-                    You can close your PNB loan early and save more!
+                  <p className="text-sm md:text-base text-red-600">
+                    Every month for the remaining tenure
                   </p>
+                </div>
+
+                {/* Early Loan Closure */}
+                <div className="bg-gradient-to-r from-green-100 to-emerald-100 p-4 md:p-6 rounded-xl shadow-lg border-2 border-green-300">
+                  <h3 className="text-lg md:text-xl font-bold text-green-900 mb-4">Early Loan Closure Benefit</h3>
+                  <div className="text-center">
+                    <p className="text-sm md:text-lg text-green-700 mb-2">
+                      If you continue paying your current EMI of <span className="font-bold">₹{calculations.currentEMI.toLocaleString('en-IN')}</span>
+                    </p>
+                    <div className="text-2xl md:text-3xl font-bold text-green-800 mb-2">
+                      {calculations.earlyClosureYears} Years {calculations.earlyClosureRemainingMonths} Months
+                    </div>
+                    <p className="text-sm md:text-base text-green-600">
+                      You can close your PNB loan early and save more!
+                    </p>
+                  </div>
                 </div>
               </div>
 
               {/* Action Buttons */}
-              <div className="space-y-3">
+              <div className="space-y-3 pt-4">
                 <Button 
-                  className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 border-2 border-yellow-400 hover:border-yellow-300"
+                  className="w-full h-12 md:h-14 text-base md:text-lg font-semibold bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 border-2 border-yellow-400 hover:border-yellow-300"
                   onClick={() => window.open('https://www.pnbhousing.com/home-loan', '_blank')}
                 >
-                  <Building2 className="mr-2 h-5 w-5" />
+                  <Building2 className="mr-2 h-4 w-4 md:h-5 md:w-5" />
                   Switch to PNB Now
-                  <ExternalLink className="ml-2 h-4 w-4" />
+                  <ExternalLink className="ml-2 h-3 w-3 md:h-4 md:w-4" />
                 </Button>
                 <Button 
                   variant="outline" 
-                  className="w-full h-12 text-lg border-2 border-red-600 text-red-700 hover:bg-red-50"
+                  className="w-full h-12 md:h-14 text-base md:text-lg border-2 border-red-600 text-red-700 hover:bg-red-50"
                   onClick={() => setShowSavingsModal(false)}
                 >
                   Calculate Again
