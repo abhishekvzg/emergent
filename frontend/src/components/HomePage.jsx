@@ -139,6 +139,10 @@ const HomePage = () => {
     }
   };
 
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
   // Helper function to format loan amount display
   const formatLoanAmount = (amountInLakhs) => {
     if (!amountInLakhs || amountInLakhs === 0) return '';
