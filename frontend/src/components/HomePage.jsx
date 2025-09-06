@@ -50,7 +50,7 @@ const HomePage = () => {
   };
 
   const calculateSavings = async () => {
-    if (!formData.loanAmount || !formData.tenure || !formData.currentRate || !formData.startYear || !formData.startMonth) {
+    if (!formData.currentRate || !formData.loanAmount || !formData.remainingMonths) {
       toast({
         title: "Missing Information",
         description: "Please fill in all required fields.",
@@ -62,21 +62,35 @@ const HomePage = () => {
     setIsCalculating(true);
     
     try {
+      // Calculate based on remaining months and outstanding amount
+      const outstandingAmount = parseFloat(formData.loanAmount) * 100000; // Convert lakhs to rupees
+      const remainingTenureYears = parseFloat(formData.remainingMonths) / 12;
+      
       const requestData = {
-        loanAmount: parseFloat(formData.loanAmount),
-        startYear: parseInt(formData.startYear),
-        startMonth: parseInt(formData.startMonth),
-        tenure: parseFloat(formData.tenure),
+        loanAmount: outstandingAmount,
+        startYear: new Date().getFullYear(), // Current year as start
+        startMonth: new Date().getMonth() + 1, // Current month
+        tenure: remainingTenureYears,
         currentRate: parseFloat(formData.currentRate)
       };
 
       const response = await axios.post(`${API}/calculate-savings`, requestData);
-      setCalculations(response.data);
       
-      toast({
-        title: "Calculation Complete!",
-        description: `You could save ₹${Math.abs(response.data.totalSavings).toLocaleString('en-IN')} in total.`,
+      // Adjust calculations for remaining tenure only
+      const currentEMI = response.data.currentEMI;
+      const pnbEMI = response.data.pnbEMI;
+      const monthlySavings = currentEMI - pnbEMI;
+      const totalSavings = monthlySavings * parseFloat(formData.remainingMonths);
+      
+      setCalculations({
+        currentEMI,
+        pnbEMI,
+        monthlySavings: Math.round(monthlySavings),
+        totalSavings: Math.round(totalSavings),
+        remainingMonths: formData.remainingMonths
       });
+      
+      setShowSavingsModal(true);
       
     } catch (error) {
       console.error('Error calculating savings:', error);
