@@ -27,7 +27,7 @@ const HomePage = () => {
   const { toast } = useToast();
 
   const calculateSavings = async () => {
-    if (!formData.currentRate || !formData.loanAmount[0] || !formData.remainingMonths) {
+    if (!formData.currentRate || !formData.loanAmount[0] || (!formData.remainingYears && !formData.remainingMonths)) {
       toast({
         title: "Missing Information",
         description: "Please fill in all required fields.",
@@ -39,9 +39,22 @@ const HomePage = () => {
     setIsCalculating(true);
     
     try {
+      // Calculate total months from years and months
+      const totalMonths = (parseInt(formData.remainingYears || 0) * 12) + parseInt(formData.remainingMonths || 0);
+      
+      if (totalMonths <= 0) {
+        toast({
+          title: "Invalid Duration",
+          description: "Please enter a valid remaining tenure.",
+          variant: "destructive"
+        });
+        setIsCalculating(false);
+        return;
+      }
+      
       // Simple frontend calculation (bypass backend for now)
       const outstandingAmount = parseFloat(formData.loanAmount[0]) * 100000; // Convert lakhs to rupees
-      const remainingTenureYears = Math.max(0.5, parseFloat(formData.remainingMonths) / 12);
+      const remainingTenureYears = Math.max(0.5, totalMonths / 12);
       
       // Calculate EMI function
       const calculateEMI = (principal, rate, tenure) => {
@@ -53,16 +66,16 @@ const HomePage = () => {
       };
       
       const currentEMI = calculateEMI(outstandingAmount, parseFloat(formData.currentRate), remainingTenureYears);
-      const pnbEMI = calculateEMI(outstandingAmount, 6.5, remainingTenureYears);
+      const pnbEMI = calculateEMI(outstandingAmount, parseFloat(formData.pnbRate), remainingTenureYears);
       const monthlySavings = currentEMI - pnbEMI;
-      const totalSavings = monthlySavings * parseFloat(formData.remainingMonths);
+      const totalSavings = monthlySavings * totalMonths;
       
       setCalculations({
         currentEMI: Math.round(currentEMI),
         pnbEMI: Math.round(pnbEMI),
         monthlySavings: Math.round(monthlySavings),
         totalSavings: Math.round(totalSavings),
-        remainingMonths: formData.remainingMonths
+        remainingMonths: totalMonths
       });
       
       setShowSavingsModal(true);
